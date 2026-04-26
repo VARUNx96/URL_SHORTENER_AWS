@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+ 
+   shortener:
+       build: ./SHORTENER_SVC
+       container_name: shortener_svc
+       ports:
+        - "8000:8000"
+       volumes:
+        - .:/project
+       working_dir: /project/SHORTENER_SVC
+
+   redirect:
+       build: ./REDIRECT_SVC
+       container_name: redirect_svc
+       ports:
+        - "8001:8001"
+       volumes:
+        - .:/project
+       working_dir: /project/REDIRECT_SVC
