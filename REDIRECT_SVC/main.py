@@ -5,7 +5,7 @@ import redis
 
 app = FastAPI()
 
-r = redis.Redis(host="redis", port=6579, decode_responses=True)
+r = redis.Redis(host="redis", port=6379, decode_responses=True)
 
 @app.get("/{code}")
 def redirect(code: str):

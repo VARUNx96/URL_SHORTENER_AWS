@@ -1,5 +1,5 @@
 import sqlite3
-conn = sqlite3.connect("../urls.db", check_same_thread=False)
+conn = sqlite3.connect("/data/urls.db", check_same_thread=False)
 cursor = conn.cursor()
 
 def get_url(code):
