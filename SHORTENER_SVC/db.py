@@ -1,14 +1,21 @@
-import sqlite3
+import boto3
+import os
 
-conn = sqlite3.connect("/data/urls.db",check_same_thread = False)
-cursor = conn.cursor()
+REGION = os.getenv("AWS_DEFAULT_REGION" , "us-east-1")
+TABLE_NAME = "url_shortener"
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS urls (
-               code TEXT PRIMARY KEY,
-               long_url TEXT
-               )""")
-conn.commit()
-def save_url(code, long_url):
-    cursor.execute("INSERT INTO urls (code, long_url) VALUES (?,?)", (code, long_url))
-    conn.commit()
+dynamodb = boto3.resource("dynamodb", region_name = REGION)
+table = dynamodb.Table(TABLE_NAME)
+
+def save_url(code : str, long_url : str):
+    table.put_item(
+        Item = {
+            "short_code": code,
+            "long_url": long_url
+            }
+    )
+
+def get_url(code: str):
+    resp = table.get_item(Key = {"short_code" : code})
+    item = resp.get("Item")
+    return item.get("long_url") if item else None

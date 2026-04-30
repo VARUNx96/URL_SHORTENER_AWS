@@ -10,3 +10,9 @@ venv/
 
 # OS files
 .DS_Store
+.env
+.docker-compose.yml.swp
+terraform.tfstate
+terraform.tfstate
+terraform.tfstate.*
+.terraform/
