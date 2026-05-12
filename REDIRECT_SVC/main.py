@@ -1,9 +1,17 @@
 from fastapi import FastAPI, HTTPException # type: ignore
 from fastapi.responses import RedirectResponse # type: ignore
 from db import get_url
-import redis
+import redis # type: ignore
 
 app = FastAPI()
+
+@app.get("/health")
+def health():
+    try:
+        r.ping()
+        return {"status": "OK..✅✅✅"}
+    except Exception:
+        raise HTTPException(status_code = 500, detail = "REDIS NOT REACHABLE...⚠️⚠️⚠️")
 
 r = redis.Redis(host="redis", port=6379, decode_responses=True)
 
@@ -15,6 +23,6 @@ def redirect(code: str):
         return RedirectResponse(url = cached_url)
     long_url = get_url(code)
     if not long_url:
-        raise HTTPException(status_code=404, detail = "URL NOT FOUND ⚠️")
+        raise HTTPException(status_code=404, detail = "URL NOT FOUND...⚠️⚠️⚠️")
     r.set(code, long_url)
     return RedirectResponse(url = long_url)

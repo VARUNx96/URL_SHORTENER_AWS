@@ -1,4 +1,4 @@
-import boto3
+import boto3 # type: ignore
 import os
 
 REGION = os.getenv("AWS_DEFAULT_REGION" , "us-east-1")

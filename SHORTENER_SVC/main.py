@@ -1,10 +1,22 @@
-from fastapi import FastAPI # type: ignore
+from fastapi import FastAPI, HTTPException # type: ignore
 from pydantic import BaseModel # type: ignore
 from utils import genrate_code
 from db import save_url
-import redis
+import redis # type: ignore
+
 
 app = FastAPI()
+
+
+@app.get("/health")
+def health():
+    try:
+        r.ping()
+        return {"status": "OK..✅✅✅"}
+    except Exception:
+        raise HTTPException(status_code = 500, detail = "REDIS NOT REACHABLE...⚠️⚠️⚠️")
+
+
 
 r = redis.Redis(host="redis", port=6379, decode_responses=True)
 
