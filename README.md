@@ -2,6 +2,8 @@
 
 Architecture
 
+![URL Shortener AWS Architecture](./ARCHITECTURE/ARCHITECTURE_IMG.jpg)
+
 
 ## 1. Project Overview
 
