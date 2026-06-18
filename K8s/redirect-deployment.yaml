@@ -17,6 +17,7 @@ spec:
       labels:
         app: redirect
     spec:
+      serviceAccountName: redirect-sa
       containers:
       - name: redirect
         image: pistionhead/redirect:latest

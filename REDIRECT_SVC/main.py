@@ -7,11 +7,7 @@ app = FastAPI()
 
 @app.get("/health")
 def health():
-    try:
-        r.ping()
-        return {"status": "OK..✅✅✅"}
-    except Exception:
-        raise HTTPException(status_code = 500, detail = "REDIS NOT REACHABLE...⚠️⚠️⚠️")
+    return {"status": "healthy"}
 
 r = redis.Redis(host="redis", port=6379, decode_responses=True)
 

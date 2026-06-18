@@ -1,7 +1,7 @@
 import boto3 # type: ignore
 import os
 
-REGION = os.getenv("AWS_DEFAULT_REGION", "ap-south-1")
+REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
 TABLE_NAME = "url_shortener"
 
 dynamodb = boto3.resource("dynamodb", region_name=REGION)

@@ -17,9 +17,13 @@ spec:
       labels:
         app: shortener
     spec:
+      serviceAccountName: shortener-sa
       containers:
       - name: shortener
         image: pistionhead/shortener:latest
+        env:
+          - name: BASE_URL
+            value: "http://k8s-default-urlshort-75cb30e9e9-2131200395.us-east-1.elb.amazonaws.com"
         ports:
         - containerPort: 8000
         resources:

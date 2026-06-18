@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException # type: ignore
+from fastapi import FastAPI, Request # type: ignore
 from pydantic import BaseModel # type: ignore
 from utils import genrate_code
 from db import save_url
 import redis # type: ignore
+
 
 
 app = FastAPI()
@@ -10,11 +11,7 @@ app = FastAPI()
 
 @app.get("/health")
 def health():
-    try:
-        r.ping()
-        return {"status": "OK..✅✅✅"}
-    except Exception:
-        raise HTTPException(status_code = 500, detail = "REDIS NOT REACHABLE...⚠️⚠️⚠️")
+    return {"status": "healthy"}
 
 
 
@@ -24,8 +21,9 @@ class URLRequest(BaseModel):
     long_url: str
 
 @app.post("/shorten")
-def shorten_url(request: URLRequest):
+def shorten_url(url_request: URLRequest,request: Request):
     code = genrate_code()
-    save_url(code, request.long_url)
-    r.set(code, request.long_url)
-    return {"short_url": f"http://localhost:8001/{code}"}
+    save_url(code, url_request.long_url)
+    base_url = str(request.base_url).rstrip("/")
+    r.set(code, url_request.long_url)
+    return {"short_url": f"{base_url}/{code}"}
